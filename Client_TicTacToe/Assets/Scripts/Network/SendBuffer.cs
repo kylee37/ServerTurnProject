@@ -5,13 +5,16 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ServerCore {
-    public class SendBufferHelper {
+namespace ServerCore
+{
+    public class SendBufferHelper
+    {
         public static ThreadLocal<SendBuffer> CurrentBuffer = new ThreadLocal<SendBuffer>(
             () => { return null; });
         public static int chunkSize { get; set; } = 4096; // 사이즈 변경 희망시
 
-        public static ArraySegment<byte> Open(int reserveSize) {
+        public static ArraySegment<byte> Open(int reserveSize)
+        {
             if (CurrentBuffer.Value == null)
                 CurrentBuffer.Value = new SendBuffer(chunkSize);
             if (CurrentBuffer.Value.FreeSize < reserveSize)
@@ -19,20 +22,23 @@ namespace ServerCore {
 
             return CurrentBuffer.Value.Open(reserveSize);
         }
-        public static ArraySegment<byte> Close(int usedSize) {
+        public static ArraySegment<byte> Close(int usedSize)
+        {
             return CurrentBuffer.Value.Close(usedSize);
         }
     }
 
 
 
-    public class SendBuffer {
+    public class SendBuffer
+    {
         // [ ][ ][ ][ ][ ][u][ ][ ][ ][ ]
         byte[] _buffer; // 
         int _usedSize = 0; // 사용한 데이터 크기 커서
         public int FreeSize { get { return _buffer.Length - _usedSize; } }
 
-        public SendBuffer(int chunkSize) {
+        public SendBuffer(int chunkSize)
+        {
             _buffer = new byte[chunkSize];
         }
         public ArraySegment<byte> Open(int reserveSize) // 얼마큼 버퍼에 전송할건지 최대치 설정

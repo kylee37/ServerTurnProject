@@ -27,7 +27,7 @@ public class SequenceManager : MonoBehaviour
     private HostType hostType;
     private const int m_port = 50765;
     private int m_counter = 0;
-    
+
     public GameObject UI_MainMenu;
     public GameObject UI_Game;
     public NetworkManager network;

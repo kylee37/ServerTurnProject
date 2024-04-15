@@ -10,7 +10,7 @@ public class MyPlayer : Player
 
     void Start()
     {
-        
+
     }
 
     void Update()

@@ -186,7 +186,7 @@ public class TicTacToe : MonoBehaviour
             //둘 수 없는 장소를 누르면 클릭용 사운드효과를 냅니다.
             if (setMark == false && Input.GetMouseButtonDown(0))
             {
-                
+
             }
         }
         else
@@ -314,7 +314,7 @@ public class TicTacToe : MonoBehaviour
             Debug.Log($"수신된 값 : {index}");
             return false;
         }
-        
+
         // 서버라면 ○ 클라이언트라면 ×를 지정합니다.
         Mark mark = (network.IsServer() == true) ? Mark.Cross : Mark.Circle;
         Debug.Log("수신수신수신");
@@ -332,7 +332,7 @@ public class TicTacToe : MonoBehaviour
         }
 
         return true;
-        
+
 
     }
 
@@ -388,7 +388,7 @@ public class TicTacToe : MonoBehaviour
         return false;
     }
 
-  
+
     // 게임 리셋.
     void Reset()
     {
@@ -449,10 +449,10 @@ public class TicTacToe : MonoBehaviour
     void NotifyDisconnection()
     {
         string message = "회선이 끊겼습니다.\n\n버튼을 누르세요.";
-        
+
     }
 
-    
+
 
     // 게임 종료 체크.
     public bool IsGameOver()

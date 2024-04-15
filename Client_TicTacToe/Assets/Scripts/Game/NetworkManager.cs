@@ -92,12 +92,12 @@ public class NetworkManager : MonoBehaviour
 
     void Start()
     {
-        
+
     }
     void Update()
     {
         List<IPacket> list = PacketQueue.Instance.PopAll();
-        foreach(IPacket packet in list)
+        foreach (IPacket packet in list)
             PacketManager.Instance.HandlePacket(_session, packet);
     }
 }

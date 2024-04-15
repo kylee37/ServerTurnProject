@@ -4,7 +4,8 @@ using UnityEngine;
 
 namespace DummyClient
 {
-    class PacketHandler {
+    class PacketHandler
+    {
         // 어떤 세션에서 조립된 패킷인지, 어떤 내용의 패킷인지
 
         // 플레이어 입장 신호 보내기
@@ -33,7 +34,7 @@ namespace DummyClient
 
             PlayerManager.Instance.Add(pkt);
         }
-       
+
 
 
         public static void S_BroadCastStoneHandler(PacketSession session, IPacket packet)

@@ -9,27 +9,27 @@ using System.Threading;
 
 namespace ServerCore
 {
-    public abstract class PacketSession : Session 
+    public abstract class PacketSession : Session
     {
         public static readonly int HeaderSize = 2;
 
         // 상속클래스에서 변경 못하도록 씰(봉인)
         // 패킷구조 : [size(2)][packetId(2)][내용......] 
-        public sealed override int OnRecv(ArraySegment<byte> buffer)    
+        public sealed override int OnRecv(ArraySegment<byte> buffer)
         {
             int processLen = 0;
 
-            while(true)
+            while (true)
             {
                 // 최소한 헤더(사이즈)는 받을 수 있는지 확인
-                if (buffer.Count < HeaderSize)   
+                if (buffer.Count < HeaderSize)
                     break;
                 // 헤더(size(2))를 읽고, 내용이 몇바이트 짜리 패킷인지 확인 
                 ushort dataSize = BitConverter.ToUInt16(buffer.Array, buffer.Offset);
                 if (buffer.Count < dataSize)    // 부분적 도착
                     break;
                 // 패킷 조립, OnRecvPacket에 단위 패킷만큼 전달 (매개변수 해석 : 버퍼, 시작점, 끝점)
-                OnRecvPacket(new ArraySegment<byte>(buffer.Array, buffer.Offset, dataSize));  
+                OnRecvPacket(new ArraySegment<byte>(buffer.Array, buffer.Offset, dataSize));
                 // 조립 완료되면 패킷 읽기 커서 이동
                 processLen += dataSize;
                 // 여기까지 오면 패킷 1개, 읽기 성공한 것
@@ -89,7 +89,7 @@ namespace ServerCore
         void OnRecvCompleted(object sender, SocketAsyncEventArgs args)
         {   // 조건1 : 내가 몇바이트를 받았는가? (연결이 끊길경우 0바이트 수신)
             // 조건2 : 연결에 특별한 문제 없는지 체크
-            if(args.BytesTransferred > 0 && args.SocketError == SocketError.Success)
+            if (args.BytesTransferred > 0 && args.SocketError == SocketError.Success)
             {
                 // TODO
                 try
@@ -130,7 +130,7 @@ namespace ServerCore
         #endregion
 
         #region 데이터송신
-        public void Send(ArraySegment<byte> sendBuff) 
+        public void Send(ArraySegment<byte> sendBuff)
         {
             lock (_lock)
             {
@@ -143,7 +143,7 @@ namespace ServerCore
 
         void RegisterSend()
         {
-            while(_sendQueue.Count > 0) // SendQueue가 빌때까지 반복
+            while (_sendQueue.Count > 0) // SendQueue가 빌때까지 반복
             {
                 ArraySegment<byte> buff = _sendQueue.Dequeue();
                 _pendinglist.Add(buff);
@@ -151,7 +151,7 @@ namespace ServerCore
             _sendArgs.BufferList = _pendinglist;
 
             bool pending = _socket.SendAsync(_sendArgs);
-            if(pending == false)    // 바로 보낼 수 있을 때
+            if (pending == false)    // 바로 보낼 수 있을 때
             {
                 OnSendCompleted(null, _sendArgs);   // 이벤트 버퍼 초기화
             }
@@ -159,7 +159,7 @@ namespace ServerCore
 
         void OnSendCompleted(object sender, SocketAsyncEventArgs args)
         {
-            lock(_lock)
+            lock (_lock)
             {
                 if (args.BytesTransferred > 0 && args.SocketError == SocketError.Success)
                 {
@@ -193,7 +193,7 @@ namespace ServerCore
 
         public void Disconnect()
         {
-            if(Interlocked.Exchange(ref _disconnected, 1) == 1)
+            if (Interlocked.Exchange(ref _disconnected, 1) == 1)
             {
                 return;
             }

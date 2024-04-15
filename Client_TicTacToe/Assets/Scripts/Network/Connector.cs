@@ -12,9 +12,9 @@ namespace ServerCore
     {
         Func<Session> _sessionFactory;
 
-        public void Connect(IPEndPoint endPoint, Func<Session> sessionFactory, int Dummycount = 1) 
+        public void Connect(IPEndPoint endPoint, Func<Session> sessionFactory, int Dummycount = 1)
         {
-            for(int i = 0; i< Dummycount; i++)
+            for (int i = 0; i < Dummycount; i++)
             {
                 Socket socket = new Socket(endPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
                 _sessionFactory = sessionFactory;
@@ -27,9 +27,9 @@ namespace ServerCore
             }
         }
 
-        void RegisterConnect(SocketAsyncEventArgs args) 
+        void RegisterConnect(SocketAsyncEventArgs args)
         {
-             Socket socket = args.UserToken as Socket;
+            Socket socket = args.UserToken as Socket;
             if (socket == null)
                 return;
 
@@ -38,9 +38,9 @@ namespace ServerCore
                 OnConnectCompleted(null, args);
         }
 
-        void OnConnectCompleted(object state, SocketAsyncEventArgs args) 
-        { 
-            if(args.SocketError == SocketError.Success)
+        void OnConnectCompleted(object state, SocketAsyncEventArgs args)
+        {
+            if (args.SocketError == SocketError.Success)
             {
                 Session session = _sessionFactory.Invoke();
                 session.Start(args.ConnectSocket);

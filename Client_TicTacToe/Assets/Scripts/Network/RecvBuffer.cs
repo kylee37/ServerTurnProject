@@ -4,14 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ServerCore {
-    class RecvBuffer {
+namespace ServerCore
+{
+    class RecvBuffer
+    {
         // [r][ ][w][ ][ ][ ][ ][ ][ ][ ]
         ArraySegment<byte> _buffer; // Segment로 만들 경우, 대용량 바이트 대응 가능
         int _readPos;   // 현재 읽는 위치
         int _writePos;  // 현재 쓰는 위치
 
-        public RecvBuffer(int bufferSize) {
+        public RecvBuffer(int bufferSize)
+        {
             _buffer = new ArraySegment<byte>(new byte[bufferSize], 0, bufferSize);
         }
 
@@ -20,14 +23,17 @@ namespace ServerCore {
         //버퍼 남은 공간
         public int FreeSize { get { return _buffer.Count - _writePos; } }
 
-        public ArraySegment<byte> ReadSegment {
+        public ArraySegment<byte> ReadSegment
+        {
             get { return new ArraySegment<byte>(_buffer.Array, _buffer.Offset + _readPos, DataSize); }
         }
-        public ArraySegment<byte> WriteSegment {
+        public ArraySegment<byte> WriteSegment
+        {
             get { return new ArraySegment<byte>(_buffer.Array, _buffer.Offset + _writePos, FreeSize); }
         }
         //중간 중간 버퍼 위치 정리
-        public void Clean() {
+        public void Clean()
+        {
             int dataSize = DataSize;
             if (dataSize == 0)  // rw가 같은 위치일때, 모든 데이터 처리한 상태
             {
@@ -43,14 +49,16 @@ namespace ServerCore {
             }
         }
         // 데이터를 성공적으로 Read 처리 했을 때
-        public bool OnRead(int numOfBytes) {
+        public bool OnRead(int numOfBytes)
+        {
             if (numOfBytes > DataSize)
                 return false;
             _readPos += numOfBytes;
             return true;
         }
         // 데이터를 Recv해서 받았을 때 = Write해야할 때
-        public bool OnWrite(int numOfBytes) {
+        public bool OnWrite(int numOfBytes)
+        {
             if (numOfBytes > FreeSize)
                 return false;
             _writePos += numOfBytes;

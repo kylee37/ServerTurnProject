@@ -5,8 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DummyClient {
-    class PacketManager 
+namespace DummyClient
+{
+    class PacketManager
     {
         #region 싱글톤
         // 패킷매니저는 수정할 일없으므로 싱글톤으로 간편히 유지
@@ -38,7 +39,7 @@ namespace DummyClient {
         }
 
         public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer
-            ,Action<PacketSession, IPacket> onRecvCallback = null)  //  Action 콜백 : 입력되는 액션에 따라 Invoke
+            , Action<PacketSession, IPacket> onRecvCallback = null)  //  Action 콜백 : 입력되는 액션에 따라 Invoke
         {
             ushort count = 0;
 
@@ -63,7 +64,7 @@ namespace DummyClient {
         {
             T packet = new T();     // 패킷 만들기
             packet.Read(buffer);    // 들어온 패킷 읽기
-            return packet;  
+            return packet;
         }
         // 패킷 처리부분 분리
         public void HandlePacket(PacketSession session, IPacket packet)
