@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class CharacterStat : MonoBehaviour
 {
-    public int SP { get; private set; }
-    public int HP { get; private set; }
-    public int ATK { get; private set; }
-    public int DEF { get; private set; }
-    public int EVA { get; private set; }
+    public float SP { get; private set; }
+    public float HP { get; private set; }
+    public float ATK { get; private set; }
+    public float DEF { get; private set; }
+    public float EVA { get; private set; }
 
     TextLoader textLoader;
 
@@ -65,5 +65,3 @@ public class CharacterStat : MonoBehaviour
         EVA = 3;
     }
 }
-
-

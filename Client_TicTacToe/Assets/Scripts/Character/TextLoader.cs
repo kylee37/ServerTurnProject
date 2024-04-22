@@ -24,9 +24,9 @@ public class TextLoader : MonoBehaviour
     {
         Debug.Log("asdsd");
         SP.text = $"SP : {playerStat.SP}";
-        HP.text = $"SP : {playerStat.HP}";
-        ATK.text = $"SP : {playerStat.ATK}";
-        DEF.text = $"SP : {playerStat.DEF}";
-        EVA.text = $"SP : {playerStat.EVA}";
+        HP.text = $"HP : {playerStat.HP}";
+        ATK.text = $"ATK : {playerStat.ATK}";
+        DEF.text = $"DEF : {playerStat.DEF}";
+        EVA.text = $"EVA : {playerStat.EVA}";
     }
 }
